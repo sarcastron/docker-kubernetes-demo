@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t sarcastron/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true sarcastron/react-test npm run test
+
+after_success:
+  - docker build -t sarcastron/k8s-demo-client ./client
+  - docker build -t sarcastron/k8s-demo-nginx ./nginx
+  - docker build -t sarcastron/k8s-demo-server ./server
+  - docker build -t sarcastron/k8s-demo-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push sarcastron/k8s-demo-client
+  - docker push sarcastron/k8s-demo-nginx
+  - docker push sarcastron/k8s-demo-server
+  - docker push sarcastron/k8s-demo-worker
