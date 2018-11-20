@@ -18,3 +18,16 @@ after_success:
   - docker push sarcastron/k8s-demo-nginx
   - docker push sarcastron/k8s-demo-server
   - docker push sarcastron/k8s-demo-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-west-2
+  app: k8s-demo
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-west-2-073732054414
+  bucket_path: k8s-demo
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
