@@ -23,7 +23,7 @@ deploy:
   provider: elasticbeanstalk
   region: us-west-2
   app: k8s-demo
-  env: MultiDocker-env
+  env: K8sDemo-env
   bucket_name: elasticbeanstalk-us-west-2-073732054414
   bucket_path: k8s-demo
   on:
